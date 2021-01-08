@@ -21,6 +21,7 @@ use Symfony\Component\Config\Exception\LoaderLoadException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Routing\RouteCollectionBuilder;
+use Violines\RestBundle\ViolinesRestBundle;
 
 /**
  * Class Kernel.
@@ -34,7 +35,7 @@ class Kernel extends AsyncKernel
      */
     public function registerBundles(): iterable
     {
-        $contents = require $this->getApplicationLayerDir().'/config/bundles.php';
+        $contents = require $this->getApplicationLayerDir() . '/config/bundles.php';
         foreach ($contents as $class => $envs) {
             if ($envs[$this->environment] ?? $envs['all'] ?? false) {
                 yield new $class($this);
@@ -55,7 +56,7 @@ class Kernel extends AsyncKernel
      */
     private function getApplicationLayerDir(): string
     {
-        return $this->getProjectDir().'/Drift';
+        return $this->getProjectDir() . '/Drift';
     }
 
     /**
@@ -66,9 +67,9 @@ class Kernel extends AsyncKernel
      */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
-        $confDir = $this->getApplicationLayerDir().'/config';
+        $confDir = $this->getApplicationLayerDir() . '/config';
         $container->setParameter('container.dumper.inline_class_loader', true);
-        $loader->load($confDir.'/services.yml');
+        $loader->load($confDir . '/services.yml');
     }
 
     /**
@@ -78,7 +79,7 @@ class Kernel extends AsyncKernel
      */
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
-        $confDir = $this->getApplicationLayerDir().'/config';
-        $routes->import($confDir.'/routes.yml');
+        $confDir = $this->getApplicationLayerDir() . '/config';
+        $routes->import($confDir . '/routes.yml');
     }
 }
