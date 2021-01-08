@@ -1,4 +1,9 @@
 # Routes
-default:
+hello:
   path: /
-  controller: App\Controller\DefaultController
+  controller: App\Controller\Teapot::hello
+
+brew:
+  path: /brew
+  methods: ['POST']
+  controller: App\Controller\Teapot::brew
