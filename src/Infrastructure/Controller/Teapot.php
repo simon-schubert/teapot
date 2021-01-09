@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller;
 
-use App\Api\CreateDrink;
+use App\Infrastructure\Repository\TeapotRedis;
+use App\Teapot\Command\CreateDrink;
+use App\Teapot\View\TeapotStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use function React\Promise\resolve;
 
@@ -12,6 +14,12 @@ class Teapot
 {
     private const COFFEE = 'coffee';
     private const TEA = 'tea';
+    private TeapotRedis $teapotRepository;
+
+    public function __construct(TeapotRedis $teapotRepository)
+    {
+        $this->teapotRepository = $teapotRepository;
+    }
 
     public function hello()
     {
@@ -29,6 +37,9 @@ class Teapot
             $amountOfCups = $createDrink->amountOfCups;
         }
 
-        return resolve(new JsonResponse(['message' => "Enjoy your $amountOfCups cups of tea."], 200));
+        return $this->teapotRepository
+            ->addAmountOfDrinks($amountOfCups)
+            ->then(fn () => $this->teapotRepository->findAmountOfDrinks())
+            ->then(fn ($total) => new JsonResponse(TeapotStatus::current($amountOfCups, (int)$total), 200));
     }
 }

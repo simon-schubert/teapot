@@ -1,9 +1,0 @@
-violines_rest:
-    serialize:
-        formats:
-            json:
-                - 'application/json'
-            xml:
-                - 'application/xml'
-                - 'text/html'
-        format_default: 'application/json'
