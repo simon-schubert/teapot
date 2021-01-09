@@ -10,17 +10,33 @@ framework:
     php_errors:
         log: false
 
+redis:
+    clients:
+        teapot:
+            host: "localhost"
+            port: 6379
+            database: "0"
+            protocol: "redis://"
+            idle: 0.5
+            timeout: 3.0
+
 # config/services.yaml
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: true
-
-    #
-    # Controllers
-    #
-    App\Controller\:
-        resource : "%app_path%/src/Controller/*"
+    
+    App\Infrastructure\:
+        resource: '%app_path%/src/Infrastructure/*'
+        exclude: '%app_path%/src/Infrastructure/{Type,Migrations}'
+    
+    App\Infrastructure\Controller\:
+        resource : "%app_path%/src/Infrastructure/Controller/*"
         tags:
-            - {name: controller.service_arguments}
+            - {name: controller.service_arguments}  
+        
+    App\Infrastructure\Repository\TeapotRepository:
+        class: App\Infrastructure\Repository\TeapotRepository
+        arguments:
+            - "@redis.teapot_client"
