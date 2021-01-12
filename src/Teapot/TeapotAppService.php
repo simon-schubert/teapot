@@ -8,6 +8,7 @@ use App\Teapot\Command\CreateBeverages;
 use App\Teapot\Exception\RefuseToBrew;
 use App\Teapot\Repository\TeapotRepository;
 use React\Promise\PromiseInterface;
+
 use function React\Promise\reject;
 
 final class TeapotAppService

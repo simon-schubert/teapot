@@ -9,6 +9,7 @@ use App\Teapot\TeapotAppService;
 use App\Teapot\View\Refuse;
 use App\Teapot\View\TeapotStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 use function React\Promise\resolve;
 
 class Teapot
@@ -27,10 +28,9 @@ class Teapot
 
     public function brew(CreateBeverages $createBeverages)
     {
-        return $this->teapotAppService->brew($createBeverages)
-            ->then(
-                fn ($total) => new JsonResponse(TeapotStatus::current($createBeverages->amountOfCups, (int)$total), 200),
-                fn ($e) => new JsonResponse(Refuse::fromException($e), 418)
-            );
+        return $this->teapotAppService->brew($createBeverages)->then(
+            fn ($total) => new JsonResponse(TeapotStatus::current($createBeverages->amountOfCups, (int)$total), 200),
+            fn ($e) => new JsonResponse(Refuse::fromException($e), 418)
+        );
     }
 }
