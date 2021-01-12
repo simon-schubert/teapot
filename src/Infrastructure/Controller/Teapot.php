@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Infrastructure\Repository\TeapotRedis;
-use App\Teapot\Command\CreateDrink;
+use App\Teapot\Command\CreateBeverages;
+use App\Teapot\TeapotAppService;
+use App\Teapot\View\Refuse;
 use App\Teapot\View\TeapotStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use function React\Promise\resolve;
 
 class Teapot
 {
-    private const COFFEE = 'coffee';
-    private const TEA = 'tea';
-    private TeapotRedis $teapotRepository;
+    private TeapotAppService $teapotAppService;
 
-    public function __construct(TeapotRedis $teapotRepository)
+    public function __construct(TeapotAppService $teapotAppService)
     {
-        $this->teapotRepository = $teapotRepository;
+        $this->teapotAppService = $teapotAppService;
     }
 
     public function hello()
@@ -26,20 +25,12 @@ class Teapot
         return resolve(new JsonResponse(['I can brew' => 'tea'], 200));
     }
 
-    public function brew(CreateDrink $createDrink)
+    public function brew(CreateBeverages $createBeverages)
     {
-        if (self::COFFEE === $createDrink->type) {
-            return resolve(new JsonResponse(['I am' => 'a teapot'], 418));
-        }
-
-        $amountOfCups = 0;
-        if (self::TEA === $createDrink->type) {
-            $amountOfCups = $createDrink->amountOfCups;
-        }
-
-        return $this->teapotRepository
-            ->addAmountOfDrinks($amountOfCups)
-            ->then(fn () => $this->teapotRepository->findAmountOfDrinks())
-            ->then(fn ($total) => new JsonResponse(TeapotStatus::current($amountOfCups, (int)$total), 200));
+        return $this->teapotAppService->brew($createBeverages)
+            ->then(
+                fn ($total) => new JsonResponse(TeapotStatus::current($createBeverages->amountOfCups, (int)$total), 200),
+                fn ($e) => new JsonResponse(Refuse::fromException($e), 418)
+            );
     }
 }

@@ -8,12 +8,12 @@ final class TeapotStatus
 {
     public $servedCups;
 
-    public $totalProducedCups;
+    public $totalServedCups;
 
     private function __construct(int $served, int $total)
     {
         $this->servedCups = $served;
-        $this->totalProducedCups = $total;
+        $this->totalServedCups = $total;
     }
 
     public static function current(int $served, int $total): self

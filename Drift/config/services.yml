@@ -27,6 +27,10 @@ services:
         autoconfigure: true
         public: true
     
+    App\Teapot\:
+        resource: '%app_path%/src/Teapot/*'
+        exclude: '%app_path%/src/Teapot/{Command,Exception,View}'
+
     App\Infrastructure\:
         resource: '%app_path%/src/Infrastructure/*'
         exclude: '%app_path%/src/Infrastructure/{Type,Migrations}'
