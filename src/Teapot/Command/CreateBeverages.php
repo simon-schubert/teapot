@@ -9,7 +9,7 @@ use Violines\RestBundle\HttpApi\HttpApi;
 /**
  * @HttpApi
  */
-final class CreateDrink
+final class CreateBeverages
 {
     public $type;
 
