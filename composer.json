@@ -23,5 +23,8 @@
             "App\\": "src/",
             "Drift\\": "Drift/"
         }
+    },
+    "require-dev": {
+        "vimeo/psalm": "^4.3"
     }
 }

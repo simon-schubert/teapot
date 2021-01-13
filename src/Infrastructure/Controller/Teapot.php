@@ -8,6 +8,7 @@ use App\Infrastructure\Response\ErrorHandler;
 use App\Infrastructure\Response\ResultHandler;
 use App\Teapot\Command\CreateBeverages;
 use App\Teapot\TeapotAppService;
+use App\Teapot\View\Message;
 use App\Teapot\View\TeapotStatus;
 use Symfony\Component\HttpFoundation\Request;
 use Violines\RestBundle\Error\ErrorInterface;
@@ -29,7 +30,7 @@ final class Teapot
 
     public function hello(Request $request)
     {
-        return resolve($this->resultHandler->handle(['I can brew' => 'tea'], $request));
+        return resolve($this->resultHandler->handle(Message::hello(), $request));
     }
 
     public function brew(CreateBeverages $createBeverages, Request $request)

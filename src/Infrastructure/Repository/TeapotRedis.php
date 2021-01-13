@@ -18,6 +18,9 @@ final class TeapotRedis implements TeapotRepository
         $this->client = $client;
     }
 
+    /**
+     * @psalm-suppress InvalidScalarArgument
+     */
     public function addToTotalServedCups(int $amount): PromiseInterface
     {
         return $this->client->incrby(self::AMOUNT_KEY, $amount);
