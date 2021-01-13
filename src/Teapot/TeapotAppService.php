@@ -24,6 +24,9 @@ final class TeapotAppService
         $this->teapotRepository = $teapotRepository;
     }
 
+    /**
+     * @return PromiseInterface<TeapotStatus>
+     */
     public function brew(CreateBeverages $createBeverages): PromiseInterface
     {
         if (self::COFFEE === $createBeverages->type) {

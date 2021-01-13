@@ -28,9 +28,7 @@ final class ErrorHandler
         $this->responseBuilder = $responseBuilder;
         $this->serializer = $serializer;
     }
-    /**
-     * @param object[]|object $data
-     */
+
     public function handle(ErrorInterface $e, Request $request): Response
     {
         $acceptHeader = AcceptHeader::fromString((string) $request->headers->get(AcceptHeader::NAME, ''));
