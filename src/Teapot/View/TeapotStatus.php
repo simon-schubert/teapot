@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Teapot\View;
 
+use Violines\RestBundle\HttpApi\HttpApi;
+
+/**
+ * @HttpApi
+ */
 final class TeapotStatus
 {
     public $servedCups;

@@ -8,7 +8,7 @@ use App\Teapot\Repository\TeapotRepository;
 use Clue\React\Redis\Client;
 use React\Promise\PromiseInterface;
 
-class TeapotRedis implements TeapotRepository
+final class TeapotRedis implements TeapotRepository
 {
     private const AMOUNT_KEY = 'amount_of_drinks';
     private Client $client;

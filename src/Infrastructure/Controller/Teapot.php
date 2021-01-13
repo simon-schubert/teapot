@@ -14,7 +14,7 @@ use Violines\RestBundle\Error\ErrorInterface;
 
 use function React\Promise\resolve;
 
-class Teapot
+final class Teapot
 {
     private ErrorHandler $errorHandler;
     private ResultHandler $resultHandler;
