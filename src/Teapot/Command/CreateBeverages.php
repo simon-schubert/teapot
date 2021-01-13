@@ -12,6 +12,11 @@ use Violines\RestBundle\HttpApi\HttpApi;
 final class CreateBeverages
 {
     public $type;
-
     public $amountOfCups;
+
+    public function __construct($type, $amountOfCups)
+    {
+        $this->type = (string)$type;
+        $this->amountOfCups = (int)$amountOfCups;
+    }
 }
