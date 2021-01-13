@@ -44,3 +44,12 @@ services:
         class: App\Infrastructure\Repository\TeapotRepository
         arguments:
             - "@redis.teapot_client"
+
+    Violines\RestBundle\Negotiation\ContentNegotiator:
+        alias: violines_rest.negotiation.content_negotiator
+
+    Violines\RestBundle\Response\ResponseBuilder:
+        alias: violines_rest.response.response_builder
+
+    Violines\RestBundle\Serialize\Serializer:
+        alias: violines_rest.serialize.serializer
