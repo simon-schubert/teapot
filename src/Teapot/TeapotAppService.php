@@ -7,9 +7,11 @@ namespace App\Teapot;
 use App\Teapot\Command\CreateBeverages;
 use App\Teapot\Exception\RefuseToBrew;
 use App\Teapot\Repository\TeapotRepository;
+use App\Teapot\View\TeapotStatus;
 use React\Promise\PromiseInterface;
 
 use function React\Promise\reject;
+use function React\Promise\resolve;
 
 final class TeapotAppService
 {
@@ -35,6 +37,7 @@ final class TeapotAppService
 
         return $this->teapotRepository
             ->addToTotalServedCups($amountOfCups)
-            ->then(fn () => $this->teapotRepository->findTotalServedCups());
+            ->then(fn () => $this->teapotRepository->findTotalServedCups())
+            ->then(fn ($total) => resolve(TeapotStatus::current($createBeverages->amountOfCups, (int)$total)));
     }
 }

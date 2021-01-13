@@ -4,36 +4,39 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Infrastructure\Response\ResponseHandler;
+use App\Infrastructure\Response\ErrorHandler;
+use App\Infrastructure\Response\ResultHandler;
 use App\Teapot\Command\CreateBeverages;
 use App\Teapot\TeapotAppService;
-use App\Teapot\View\Refuse;
 use App\Teapot\View\TeapotStatus;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Violines\RestBundle\Error\ErrorInterface;
 
 use function React\Promise\resolve;
 
 class Teapot
 {
-    private ResponseHandler $responseHandler;
+    private ErrorHandler $errorHandler;
+    private ResultHandler $resultHandler;
     private TeapotAppService $teapotAppService;
 
-    public function __construct(ResponseHandler $responseHandler, TeapotAppService $teapotAppService)
+    public function __construct(ErrorHandler $errorHandler, ResultHandler $resultHandler, TeapotAppService $teapotAppService)
     {
-        $this->responseHandler = $responseHandler;
+        $this->errorHandler = $errorHandler;
+        $this->resultHandler = $resultHandler;
         $this->teapotAppService = $teapotAppService;
     }
 
-    public function hello()
+    public function hello(Request $request)
     {
-        return resolve(new JsonResponse(['I can brew' => 'tea'], 200));
+        return resolve($this->resultHandler->handle(['I can brew' => 'tea'], $request));
     }
 
-    public function brew(CreateBeverages $createBeverages)
+    public function brew(CreateBeverages $createBeverages, Request $request)
     {
         return $this->teapotAppService->brew($createBeverages)->then(
-            fn ($total) => $this->responseHandler->createResponse(TeapotStatus::current($createBeverages->amountOfCups, (int)$total)),
-            fn ($e) => $this->responseHandler->createResponse(Refuse::fromException($e), 418)
+            fn (TeapotStatus $status) => $this->resultHandler->handle($status, $request),
+            fn (ErrorInterface $e) => $this->errorHandler->handle($e, $request)
         );
     }
 }
