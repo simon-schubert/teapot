@@ -25,7 +25,7 @@ final class TeapotAppService
     }
 
     /**
-     * @return PromiseInterface<TeapotStatus>
+     * @return PromiseInterface
      */
     public function brew(CreateBeverages $createBeverages): PromiseInterface
     {
