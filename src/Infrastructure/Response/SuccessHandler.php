@@ -12,7 +12,7 @@ use Violines\RestBundle\Response\ContentTypeHeader;
 use Violines\RestBundle\Response\ResponseBuilder;
 use Violines\RestBundle\Serialize\Serializer;
 
-final class ResultHandler
+final class SuccessHandler
 {
     private ContentNegotiator $contentNegotiator;
     private ResponseBuilder $responseBuilder;
