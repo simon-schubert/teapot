@@ -13,7 +13,7 @@
         "drift/server": "0.1.*, >=0.1.7",
         "drift/react-functions": "0.1.*",
         "drift/event-loop-utils": "0.1.*",
-        "violines/rest-bundle": "^0.7.0",
+        "violines/rest-bundle": "^0.7.1",
         "doctrine/annotations": "^1.11",
         "symfony/property-access": "^5.2",
         "drift/redis-bundle": "^0.1.4"
